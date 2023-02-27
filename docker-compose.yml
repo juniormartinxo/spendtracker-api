@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  app:
+    build: .docker/.docker-node
+    container_name: spendtracker-api
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    environment:
+      - TZ=America/Sao_Paulo
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+
+  db:
+    build: .docker/.docker-mysql
+    container_name: spendtracker-db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    cap_add:
+      - SYS_NICE
+    ports:
+      - 3309:3306
+    volumes:
+      - .docker/mysql-data:/usr/src/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
