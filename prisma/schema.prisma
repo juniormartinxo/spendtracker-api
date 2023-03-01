@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  //shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  //relationMode      = "prisma"
+}
+
+model Expense {
+  id                          Int           @id @default(autoincrement()) @db.UnsignedInt
+  ExpenseType                 ExpenseType   @relation(fields: [expense_type_id], references: [id])
+  expense_type_id             Int           @db.UnsignedInt
+  PaymentMethod               PaymentMethod @relation(fields: [payment_methods_id], references: [id])
+  payment_methods_id          Int           @db.UnsignedInt
+  ExpenseLocal                ExpenseLocal? @relation(fields: [expense_local_id], references: [id])
+  expense_local_id            Int?          @db.UnsignedInt
+  description                 String        @db.VarChar(255)
+  date                        DateTime
+  amount                      BigInt
+  installments                Int
+  installments_first_due_date DateTime
+  observations                String?       @db.Text
+  createdAt                   DateTime      @default(now())
+  updatedAt                   DateTime      @updatedAt
+  status                      Boolean       @default(true) @db.TinyInt
+  Installment                 Installment[]
+
+  @@index([expense_type_id])
+  @@index([payment_methods_id])
+  @@index([expense_local_id])
+  @@map("expenses")
+}
+
+model ExpenseType {
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  description String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  status      Boolean   @default(true) @db.TinyInt
+  Expense     Expense[]
+
+  @@map("expense_types")
+}
+
+model ExpenseLocal {
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  description String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  status      Boolean   @default(true) @db.TinyInt
+  Expense     Expense[]
+
+  @@map("expense_locals")
+}
+
+model Installment {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  expenseId  Expense   @relation(fields: [expense_id], references: [id])
+  expense_id Int       @db.UnsignedInt
+  number     Int
+  due_date   DateTime
+  amount     BigInt
+  paid       Boolean   @default(false)
+  paid_date  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  status     Boolean   @default(true) @db.TinyInt
+
+  @@index([expense_id])
+  @@map("installments")
+}
+
+model PaymentMethod {
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  description String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  status      Boolean   @default(true) @db.TinyInt
+  Expense     Expense[]
+
+  @@map("payment_methods")
+}
