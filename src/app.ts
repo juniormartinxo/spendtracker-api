@@ -1,7 +1,11 @@
+import * as dotenv from 'dotenv'
+dotenv.config()
+
 import express from 'express'
 import cors from 'cors'
 import logger from 'morgan'
-import { router } from './routes'
+import router from './routes'
+import expenses from './routes/expenses'
 
 export class App {
   public express: express.Application
@@ -17,5 +21,6 @@ export class App {
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: false }))
     this.express.use('/', router)
+    this.express.use('/expenses/', expenses)
   }
 }
