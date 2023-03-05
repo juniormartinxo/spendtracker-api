@@ -35,10 +35,21 @@
 
 API do spendtracker, que é um software para controle de gastos mensais.
 
-### Instalação
+### ⚡Instalação
 
 Instale as dependências com
 
 ```
 npm install
 ```
+
+### 📃Crie o arquivo `.env`
+Crie o arquivo `.env`, à partir do arquivo `.env.example`
+
+### 🔥Inicie o servidor
+Para iniciar o servidor execute
+
+```
+npm run dev
+```
+
