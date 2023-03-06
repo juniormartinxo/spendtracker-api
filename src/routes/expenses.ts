@@ -3,8 +3,6 @@ import { Router } from 'express'
 
 const expenses = Router()
 
-const router_group = '/expenses'
-
 const includes = { ExpenseType: true, PaymentMethod: true, ExpenseLocal: true }
 
 expenses.get(`/`, async (req, res) => {
