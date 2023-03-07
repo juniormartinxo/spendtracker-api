@@ -6,6 +6,7 @@ import cors from 'cors'
 import logger from 'morgan'
 import router from './routes'
 import expenses from './routes/expenses'
+import expenseType from './routes/expenses_types'
 
 export class App {
   public express: express.Application
@@ -22,5 +23,6 @@ export class App {
     this.express.use(express.urlencoded({ extended: false }))
     this.express.use('/', router)
     this.express.use('/expenses/', expenses)
+    this.express.use('/expenses_types/', expenseType)
   }
 }
