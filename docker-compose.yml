@@ -3,6 +3,7 @@ version: '3'
 services:
   app:
     build: .docker/.docker-node
+    entrypoint: .docker/entrypoint.sh
     container_name: spendtracker-api
     ports:
       - '${APP_PORT}:${APP_PORT}'
