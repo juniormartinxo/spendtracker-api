@@ -1,18 +1,14 @@
-FROM node:18.14.2-alpine AS base
+FROM node:18.14.2-alpine
 
 WORKDIR /usr/src/app
 
 COPY package*.json .
 
-FROM base AS development
+RUN apk update && apk add tzdata && apk add --no-cache bash && \
+    npm install -g @nestjs/cli && npm install -g npm@9.6.2
 
-#RUN --mount=type=cache,target=/usr/src/app/.npm \
-#    npm set cache /usr/src/app/.npm && \
-#    npm install
+ENTRYPOINT echo "A data do servidor é: $(date +'%d/%m/%Y %H:%m:%S')"
 
-RUN apk update && apk add tzdata && apk add --no-cache bash
+USER node
 
-COPY . .
-
-CMD ["npm", "run", "dev"]
 
