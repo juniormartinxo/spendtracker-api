@@ -22,7 +22,7 @@ services:
     cap_add:
       - SYS_NICE
     ports:
-      - 3309:3306
+      - '${DATABASE_PORT}:3306'
     volumes:
       - .docker/mysql-data:/usr/src/mysql
     environment:
