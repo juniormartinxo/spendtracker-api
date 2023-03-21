@@ -29,8 +29,9 @@ model Expense {
   observations                String?       @db.Text
   createdAt                   DateTime      @default(now())
   updatedAt                   DateTime      @updatedAt
-  status                      Boolean       @default(true) @db.TinyInt
-  Installment                 Installment[]
+  active                      Boolean       @default(true) @db.TinyInt
+
+  Installment Installment[]
 
   @@index([expense_type_id])
   @@index([payment_methods_id])
@@ -39,23 +40,25 @@ model Expense {
 }
 
 model ExpenseType {
-  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   description String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  status      Boolean   @default(true) @db.TinyInt
-  Expense     Expense[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  active      Boolean  @default(true) @db.TinyInt
+
+  Expense Expense[]
 
   @@map("expense_types")
 }
 
 model ExpenseLocal {
-  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   description String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  status      Boolean   @default(true) @db.TinyInt
-  Expense     Expense[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  active      Boolean  @default(true) @db.TinyInt
+
+  Expense Expense[]
 
   @@map("expense_locals")
 }
@@ -71,19 +74,20 @@ model Installment {
   paid_date  DateTime?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  status     Boolean   @default(true) @db.TinyInt
+  active     Boolean   @default(true) @db.TinyInt
 
   @@index([expense_id])
   @@map("installments")
 }
 
 model PaymentMethod {
-  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
   description String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  status      Boolean   @default(true) @db.TinyInt
-  Expense     Expense[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  active      Boolean  @default(true) @db.TinyInt
+
+  Expense Expense[]
 
   @@map("payment_methods")
 }
