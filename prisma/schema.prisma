@@ -22,13 +22,13 @@ model Expense {
   ExpenseLocal                ExpenseLocal? @relation(fields: [expense_local_id], references: [id])
   expense_local_id            Int?          @db.UnsignedInt
   description                 String        @db.VarChar(255)
-  date                        DateTime
-  amount                      BigInt
-  installments                Int
-  installments_first_due_date DateTime
+  date                        DateTime      @db.Date()
+  amount                      Decimal       @db.Decimal(10, 2)
+  number_of_installments      Int           @default(1)
+  installments_first_due_date DateTime      @default(now())
   observations                String?       @db.Text
-  createdAt                   DateTime      @default(now())
-  updatedAt                   DateTime      @updatedAt
+  created_at                  DateTime      @default(now())
+  updated_at                  DateTime?
   active                      Boolean       @default(true) @db.TinyInt
 
   Installment Installment[]
@@ -40,11 +40,11 @@ model Expense {
 }
 
 model ExpenseType {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
   description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  active      Boolean  @default(true) @db.TinyInt
+  created_at  DateTime  @default(now())
+  updated_at  DateTime?
+  active      Boolean   @default(true) @db.TinyInt
 
   Expense Expense[]
 
@@ -52,28 +52,29 @@ model ExpenseType {
 }
 
 model ExpenseLocal {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
   description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  active      Boolean  @default(true) @db.TinyInt
+  created_at  DateTime  @default(now())
+  updated_at  DateTime?
+  active      Boolean   @default(true) @db.TinyInt
 
   Expense Expense[]
 
   @@map("expense_locals")
 }
 
+// Prestações
 model Installment {
   id         Int       @id @default(autoincrement()) @db.UnsignedInt
-  expenseId  Expense   @relation(fields: [expense_id], references: [id])
   expense_id Int       @db.UnsignedInt
+  Expense    Expense   @relation(fields: [expense_id], references: [id])
   number     Int
-  due_date   DateTime
-  amount     BigInt
+  due_date   DateTime  @db.Date()
+  amount     Decimal   @db.Decimal(10, 2)
   paid       Boolean   @default(false)
-  paid_date  DateTime?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  paid_date  DateTime? @db.Date()
+  created_at DateTime  @default(now())
+  updated_at DateTime?
   active     Boolean   @default(true) @db.TinyInt
 
   @@index([expense_id])
@@ -81,11 +82,11 @@ model Installment {
 }
 
 model PaymentMethod {
-  id          Int      @id @default(autoincrement()) @db.UnsignedInt
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
   description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  active      Boolean  @default(true) @db.TinyInt
+  created_at  DateTime  @default(now())
+  updated_at  DateTime?
+  active      Boolean   @default(true) @db.TinyInt
 
   Expense Expense[]
 

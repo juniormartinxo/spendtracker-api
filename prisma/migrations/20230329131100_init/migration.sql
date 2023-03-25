@@ -5,13 +5,13 @@ CREATE TABLE `expenses` (
     `payment_methods_id` INTEGER UNSIGNED NOT NULL,
     `expense_local_id` INTEGER UNSIGNED NULL,
     `description` VARCHAR(255) NOT NULL,
-    `date` DATETIME(3) NOT NULL,
-    `amount` BIGINT NOT NULL,
-    `installments` INTEGER NOT NULL,
-    `installments_first_due_date` DATETIME(3) NOT NULL,
+    `date` DATE NOT NULL,
+    `amount` DECIMAL(10, 2) NOT NULL,
+    `number_of_installments` INTEGER NOT NULL DEFAULT 1,
+    `installments_first_due_date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `observations` TEXT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NULL,
     `active` BOOLEAN NOT NULL DEFAULT true,
 
     INDEX `expenses_expense_type_id_idx`(`expense_type_id`),
@@ -24,8 +24,8 @@ CREATE TABLE `expenses` (
 CREATE TABLE `expense_types` (
     `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
     `description` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NULL,
     `active` BOOLEAN NOT NULL DEFAULT true,
 
     PRIMARY KEY (`id`)
@@ -35,8 +35,8 @@ CREATE TABLE `expense_types` (
 CREATE TABLE `expense_locals` (
     `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
     `description` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NULL,
     `active` BOOLEAN NOT NULL DEFAULT true,
 
     PRIMARY KEY (`id`)
@@ -47,12 +47,12 @@ CREATE TABLE `installments` (
     `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
     `expense_id` INTEGER UNSIGNED NOT NULL,
     `number` INTEGER NOT NULL,
-    `due_date` DATETIME(3) NOT NULL,
-    `amount` BIGINT NOT NULL,
+    `due_date` DATE NOT NULL,
+    `amount` DECIMAL(10, 2) NOT NULL,
     `paid` BOOLEAN NOT NULL DEFAULT false,
-    `paid_date` DATETIME(3) NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `paid_date` DATE NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NULL,
     `active` BOOLEAN NOT NULL DEFAULT true,
 
     INDEX `installments_expense_id_idx`(`expense_id`),
@@ -63,8 +63,8 @@ CREATE TABLE `installments` (
 CREATE TABLE `payment_methods` (
     `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
     `description` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NULL,
     `active` BOOLEAN NOT NULL DEFAULT true,
 
     PRIMARY KEY (`id`)
