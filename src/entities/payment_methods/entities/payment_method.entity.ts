@@ -3,7 +3,7 @@ import { PaymentMethod } from '.prisma/client'
 export class PaymentMethodEntity implements PaymentMethod {
   id: number
   description: string
-  createdAt: Date
-  updatedAt: Date
+  created_at: Date
+  updated_at: Date
   active: boolean
 }
