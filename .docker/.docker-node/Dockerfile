@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 COPY package*.json .
 
 RUN apk update && apk add tzdata && apk add --no-cache bash && \
-    npm install -g @nestjs/cli && npm install -g npm@9.6.2
+    npm install -g @nestjs/cli && npm install -g npm@latest
 
 ENTRYPOINT echo "A data do servidor é: $(date +'%d/%m/%Y %H:%m:%S')"
 
