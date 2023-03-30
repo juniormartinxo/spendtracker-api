@@ -1,5 +1,5 @@
-import { Prisma } from '.prisma/client'
-export class Expense {
+import { Expense, Prisma } from '.prisma/client'
+export class ExpenseEntity implements Expense {
   id: number
   expense_type_id: number
   payment_methods_id: number
