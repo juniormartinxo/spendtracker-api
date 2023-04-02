@@ -5,30 +5,30 @@ import { UpdateExpenseTypeDto } from './dto/update-expense_type.dto'
 
 @Controller('expense-types')
 export class ExpenseTypesController {
-  constructor(private readonly expenseTypesService: ExpenseTypesService) {}
+  constructor(private readonly service: ExpenseTypesService) {}
 
   @Post()
-  create(@Body() createExpenseTypeDto: CreateExpenseTypeDto) {
-    return this.expenseTypesService.create(createExpenseTypeDto)
+  create(@Body() dto: CreateExpenseTypeDto) {
+    return this.service.create(dto)
   }
 
   @Get()
-  findAll() {
-    return this.expenseTypesService.findAll()
+  findAll(skip: number, take: number, order: string, direction: string) {
+    return this.service.findAll(skip, take, order, direction)
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.expenseTypesService.findOne(+id)
+    return this.service.findOne(+id)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExpenseTypeDto: UpdateExpenseTypeDto) {
-    return this.expenseTypesService.update(+id, updateExpenseTypeDto)
+  update(@Param('id') id: string, @Body() dto: UpdateExpenseTypeDto) {
+    return this.service.update(+id, dto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.expenseTypesService.remove(+id)
+    return this.service.remove(+id)
   }
 }
