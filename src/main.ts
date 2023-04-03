@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core'
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { AppModule } from './app.module'
 import { ValidationPipe } from '@nestjs/common'
 import { ConflictInterceptor } from './common/errors/interceptors/conflict.interceptor'
@@ -8,6 +9,17 @@ import { NotFoundInterceptor } from './common/errors/interceptors/notfound.inter
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+
+  const config = new DocumentBuilder()
+    .setTitle('Spendtracker')
+    .setDescription('A API do Spendtracker')
+    .setVersion('1.0')
+    .addTag('spendtracker')
+    .build()
+
+  const document = SwaggerModule.createDocument(app, config)
+
+  SwaggerModule.setup('api', app, document)
 
   app.useGlobalPipes(
     new ValidationPipe({
