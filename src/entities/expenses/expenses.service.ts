@@ -1,4 +1,4 @@
-import { Body, Injectable, Post } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { ExpensesRepository } from './repositories/expenses.repository'
 import { CreateExpenseDto } from './dto/create-expense.dto'
 import { UpdateExpenseDto } from './dto/update-expense.dto'
@@ -15,12 +15,24 @@ export class ExpensesService {
     return await this.repository.findAll(skip, take, order, direction)
   }
 
-  findOne(id: number) {
-    return this.repository.findOne(id)
+  async findOne(id: number) {
+    const expense = await this.repository.findOne(id)
+
+    if (!expense) {
+      throw new NotFoundException(`Registro com o id ${id}, não encontrado`)
+    }
+
+    return expense
   }
 
-  update(id: number, dto: UpdateExpenseDto) {
-    return this.repository.update(id, dto)
+  async update(id: number, dto: UpdateExpenseDto) {
+    const expense = await this.repository.update(id, dto)
+
+    if (!expense) {
+      throw new NotFoundException(`Registro com o id ${id}, não encontrado`)
+    }
+
+    return expense
   }
 
   remove(id: number) {
