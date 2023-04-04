@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { UpdateExpenseDto } from '../dto/update-expense.dto'
-import { CreateExpenseDto } from '../dto/create-expense.dto'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { ExpenseEntity } from '../entities/expense.entity'
 import { Prisma } from '.prisma/client'
 import OrderByType from 'src/common/types/OrderByType'
+import { CreateExpenseDto } from '../dto/create-expense.dto'
 
 @Injectable()
 export class ExpensesRepository {
@@ -23,7 +23,7 @@ export class ExpensesRepository {
   async findAll(skip: number, take: number, order: string, direction = 'asc'): Promise<ExpenseEntity[]> {
     const orderFields: OrderByType = {
       id: 'id',
-      name: 'name',
+      description: 'description',
       type: 'type',
     }
 
