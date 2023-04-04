@@ -2,8 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ExpenseLocalsService } from './expense_locals.service'
 import { CreateExpenseLocalDto } from './dto/create-expense_local.dto'
 import { UpdateExpenseLocalDto } from './dto/update-expense_local.dto'
-import { ApiResponse } from '@nestjs/swagger'
+import { ApiResponse, ApiTags } from '@nestjs/swagger'
 
+@ApiTags('Expense Locals')
 @Controller('expense-locals')
 export class ExpenseLocalsController {
   constructor(private readonly service: ExpenseLocalsService) {}

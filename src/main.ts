@@ -14,7 +14,7 @@ async function bootstrap() {
     .setTitle('Spendtracker')
     .setDescription('A API do Spendtracker')
     .setVersion('1.0')
-    .addTag('spendtracker')
+    .addTag('Spendtracker')
     .build()
 
   const document = SwaggerModule.createDocument(app, config)
