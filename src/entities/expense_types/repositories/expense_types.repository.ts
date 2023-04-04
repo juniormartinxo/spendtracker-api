@@ -1,29 +1,29 @@
 import { Injectable } from '@nestjs/common'
-import { UpdateExpenseDto } from '../dto/update-expense.dto'
-import { PrismaService } from 'src/prisma/prisma.service'
-import { ExpenseEntity } from '../entities/expense.entity'
 import { Prisma } from '.prisma/client'
 import OrderByType from 'src/common/types/OrderByType'
-import { CreateExpenseDto } from '../dto/create-expense.dto'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { CreateExpenseTypeDto } from '../dto/create-expense_type.dto'
+import { ExpenseTypeEntity } from '../entities/expense_type.entity'
+import { UpdateExpenseTypeDto } from '../dto/update-expense_type.dto'
 
 @Injectable()
-export class ExpensesRepository {
-  private readonly service: Prisma.ExpenseDelegate<Prisma.RejectOnNotFound | Prisma.RejectPerOperation>
+export class ExpenseTypesRepository {
+  private readonly service: Prisma.ExpenseTypeDelegate<Prisma.RejectOnNotFound | Prisma.RejectPerOperation>
 
   constructor(private readonly prisma: PrismaService) {
-    this.service = prisma.expense
+    this.service = prisma.expenseType
   }
 
-  async create(dto: CreateExpenseDto): Promise<ExpenseEntity> {
+  async create(dto: CreateExpenseTypeDto): Promise<ExpenseTypeEntity> {
     return await this.service.create({
       data: dto,
     })
   }
 
-  async findAll(skip: number, take: number, order: string, direction = 'asc'): Promise<ExpenseEntity[]> {
+  async findAll(skip: number, take: number, order: string, direction = 'asc'): Promise<ExpenseTypeEntity[]> {
     const orderFields: OrderByType = {
       id: 'id',
-      description: 'description',
+      name: 'name',
       type: 'type',
     }
 
@@ -49,7 +49,7 @@ export class ExpensesRepository {
     })
   }
 
-  async update(id: number, dto: UpdateExpenseDto) {
+  async update(id: number, dto: UpdateExpenseTypeDto) {
     return await this.service.update({
       where: { id },
       data: dto,

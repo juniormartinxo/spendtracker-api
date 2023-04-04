@@ -1,21 +1,33 @@
-import { IsBoolean, IsDate, IsInt, IsNumber } from 'class-validator'
+import { IsBoolean, IsDate, IsInt, IsNotEmpty, IsNumber } from 'class-validator'
 
 export class CreateInstallmentDto {
-  @IsInt()
+  @IsInt({ message: 'Despesa deve ser um inteiro' })
+  @IsNotEmpty({ message: 'Despesa não pode ser vazio' })
   expense_id: number
 
-  @IsInt()
+  @IsInt({ message: 'Número deve ser um inteiro' })
+  @IsNotEmpty({ message: 'Número não pode ser vazio' })
   number: number
 
-  @IsDate()
+  @IsDate({ message: 'Data de vencimento deve ser uma data' })
+  @IsNotEmpty({ message: 'Data de vencimento não pode ser vazio' })
   due_date: Date
 
-  @IsNumber()
+  @IsNumber(
+    {
+      allowNaN: false,
+      allowInfinity: false,
+      maxDecimalPlaces: 2,
+    },
+    { message: 'Valor deve ser um número' },
+  )
   amount: number
 
-  @IsBoolean()
+  @IsBoolean({ message: 'Pago deve ser um booleano' })
+  @IsNotEmpty({ message: 'Pago não pode ser vazio' })
   paid: boolean
 
-  @IsDate()
+  @IsDate({ message: 'Data de pagamento deve ser uma data' })
+  @IsNotEmpty({ message: 'Data de pagamento não pode ser vazio' })
   paid_date: Date
 }

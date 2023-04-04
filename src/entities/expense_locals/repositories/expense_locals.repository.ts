@@ -1,29 +1,28 @@
 import { Injectable } from '@nestjs/common'
-import { UpdateExpenseDto } from '../dto/update-expense.dto'
-import { PrismaService } from 'src/prisma/prisma.service'
-import { ExpenseEntity } from '../entities/expense.entity'
-import { Prisma } from '.prisma/client'
 import OrderByType from 'src/common/types/OrderByType'
-import { CreateExpenseDto } from '../dto/create-expense.dto'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { UpdateExpenseLocalDto } from '../dto/update-expense_local.dto'
+import { CreateExpenseLocalDto } from '../dto/create-expense_local.dto'
+import { ExpenseLocalEntity } from '../entities/expense_local.entity'
 
 @Injectable()
-export class ExpensesRepository {
-  private readonly service: Prisma.ExpenseDelegate<Prisma.RejectOnNotFound | Prisma.RejectPerOperation>
+export class ExpenseLocalsRepository {
+  private readonly service
 
   constructor(private readonly prisma: PrismaService) {
-    this.service = prisma.expense
+    this.service = prisma.expenseLocal
   }
 
-  async create(dto: CreateExpenseDto): Promise<ExpenseEntity> {
+  async create(dto: CreateExpenseLocalDto): Promise<ExpenseLocalEntity> {
     return await this.service.create({
       data: dto,
     })
   }
 
-  async findAll(skip: number, take: number, order: string, direction = 'asc'): Promise<ExpenseEntity[]> {
+  async findAll(skip: number, take: number, order: string, direction = 'asc'): Promise<ExpenseLocalEntity[]> {
     const orderFields: OrderByType = {
       id: 'id',
-      description: 'description',
+      name: 'name',
       type: 'type',
     }
 
@@ -49,7 +48,7 @@ export class ExpensesRepository {
     })
   }
 
-  async update(id: number, dto: UpdateExpenseDto) {
+  async update(id: number, dto: UpdateExpenseLocalDto) {
     return await this.service.update({
       where: { id },
       data: dto,
