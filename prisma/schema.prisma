@@ -13,14 +13,36 @@ datasource db {
   //relationMode      = "prisma"
 }
 
+model User {
+  uuid       String    @unique @default(uuid()) @db.VarChar(36)
+  name       String
+  email      String    @unique
+  password   String    @db.VarChar(255)
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+  active     Boolean   @default(true) @db.TinyInt
+
+  Expense       Expense[]
+  ExpenseType   ExpenseType[]
+  ExpenseLocal  ExpenseLocal[]
+  Installment   Installment[]
+  PaymentMethod PaymentMethod[]
+
+  @@index([email])
+  @@index([uuid])
+  @@map("users")
+}
+
 model Expense {
-  id                          Int           @id @default(autoincrement()) @db.UnsignedInt
-  ExpenseType                 ExpenseType   @relation(fields: [expense_type_id], references: [id])
-  expense_type_id             Int           @db.UnsignedInt
-  PaymentMethod               PaymentMethod @relation(fields: [payment_methods_id], references: [id])
-  payment_methods_id          Int           @db.UnsignedInt
-  ExpenseLocal                ExpenseLocal? @relation(fields: [expense_local_id], references: [id])
-  expense_local_id            Int?          @db.UnsignedInt
+  uuid                        String        @unique @default(uuid()) @db.VarChar(36)
+  user_uuid                   String        @db.VarChar(36)
+  User                        User          @relation(fields: [user_uuid], references: [uuid])
+  expense_type_uuid           String        @db.VarChar(36)
+  ExpenseType                 ExpenseType   @relation(fields: [expense_type_uuid], references: [uuid])
+  payment_methods_uuid        String        @db.VarChar(36)
+  PaymentMethod               PaymentMethod @relation(fields: [payment_methods_uuid], references: [uuid])
+  expense_local_uuid          String        @db.VarChar(36)
+  ExpenseLocal                ExpenseLocal? @relation(fields: [expense_local_uuid], references: [uuid])
   description                 String        @db.VarChar(255)
   date                        DateTime      @db.Date()
   amount                      Decimal       @db.Decimal(10, 2)
@@ -33,14 +55,17 @@ model Expense {
 
   Installment Installment[]
 
-  @@index([expense_type_id])
-  @@index([payment_methods_id])
-  @@index([expense_local_id])
+  @@index([expense_type_uuid])
+  @@index([payment_methods_uuid])
+  @@index([expense_local_uuid])
+  @@index([uuid])
   @@map("expenses")
 }
 
 model ExpenseType {
-  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  uuid        String    @unique @default(uuid()) @db.VarChar(36)
+  user_uuid   String    @db.VarChar(36)
+  User        User      @relation(fields: [user_uuid], references: [uuid])
   description String
   created_at  DateTime  @default(now())
   updated_at  DateTime?
@@ -48,11 +73,14 @@ model ExpenseType {
 
   Expense Expense[]
 
+  @@index([uuid])
   @@map("expense_types")
 }
 
 model ExpenseLocal {
-  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  uuid        String    @unique @default(uuid()) @db.VarChar(36)
+  user_uuid   String    @db.VarChar(36)
+  User        User      @relation(fields: [user_uuid], references: [uuid])
   description String
   created_at  DateTime  @default(now())
   updated_at  DateTime?
@@ -60,29 +88,36 @@ model ExpenseLocal {
 
   Expense Expense[]
 
+  @@unique([user_uuid, description])
+  @@index([uuid])
   @@map("expense_locals")
 }
 
 // Prestações
 model Installment {
-  id         Int       @id @default(autoincrement()) @db.UnsignedInt
-  expense_id Int       @db.UnsignedInt
-  Expense    Expense   @relation(fields: [expense_id], references: [id])
-  number     Int
-  due_date   DateTime  @db.Date()
-  amount     Decimal   @db.Decimal(10, 2)
-  paid       Boolean   @default(false)
-  paid_date  DateTime? @db.Date()
-  created_at DateTime  @default(now())
-  updated_at DateTime?
-  active     Boolean   @default(true) @db.TinyInt
+  uuid         String    @unique @default(uuid()) @db.VarChar(36)
+  user_uuid    String    @db.VarChar(36)
+  User         User      @relation(fields: [user_uuid], references: [uuid])
+  expense_uuid String    @db.VarChar(36)
+  Expense      Expense   @relation(fields: [expense_uuid], references: [uuid])
+  number       Int
+  due_date     DateTime  @db.Date()
+  amount       Decimal   @db.Decimal(10, 2)
+  paid         Boolean   @default(false)
+  paid_date    DateTime? @db.Date()
+  created_at   DateTime  @default(now())
+  updated_at   DateTime?
+  active       Boolean   @default(true) @db.TinyInt
 
-  @@index([expense_id])
+  @@index([expense_uuid])
+  @@index([uuid])
   @@map("installments")
 }
 
 model PaymentMethod {
-  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  uuid        String    @unique @default(uuid()) @db.VarChar(36)
+  user_uuid   String    @db.VarChar(36)
+  User        User      @relation(fields: [user_uuid], references: [uuid])
   description String
   created_at  DateTime  @default(now())
   updated_at  DateTime?
@@ -90,5 +125,7 @@ model PaymentMethod {
 
   Expense Expense[]
 
+  @@unique([user_uuid, description])
+  @@index([uuid])
   @@map("payment_methods")
 }
