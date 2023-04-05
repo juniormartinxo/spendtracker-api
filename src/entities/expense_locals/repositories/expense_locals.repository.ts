@@ -4,10 +4,11 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { UpdateExpenseLocalDto } from '../dto/update-expense_local.dto'
 import { CreateExpenseLocalDto } from '../dto/create-expense_local.dto'
 import { ExpenseLocalEntity } from '../entities/expense_local.entity'
+import { Prisma } from '.prisma/client'
 
 @Injectable()
 export class ExpenseLocalsRepository {
-  private readonly service
+  private readonly service: Prisma.ExpenseLocalDelegate<Prisma.RejectOnNotFound | Prisma.RejectPerOperation>
 
   constructor(private readonly prisma: PrismaService) {
     this.service = prisma.expenseLocal
@@ -21,9 +22,8 @@ export class ExpenseLocalsRepository {
 
   async findAll(skip: number, take: number, order: string, direction = 'asc'): Promise<ExpenseLocalEntity[]> {
     const orderFields: OrderByType = {
-      id: 'id',
-      name: 'name',
-      type: 'type',
+      description: 'description',
+      created_at: 'created_at',
     }
 
     const orderBy: OrderByType = {}
@@ -42,22 +42,22 @@ export class ExpenseLocalsRepository {
     })
   }
 
-  async findOne(id: number) {
+  async findOne(uuid: string) {
     return await this.service.findUnique({
-      where: { id },
+      where: { uuid },
     })
   }
 
-  async update(id: number, dto: UpdateExpenseLocalDto) {
+  async update(uuid: string, dto: UpdateExpenseLocalDto) {
     return await this.service.update({
-      where: { id },
+      where: { uuid },
       data: dto,
     })
   }
 
-  async remove(id: number) {
+  async remove(uuid: string) {
     return await this.service.update({
-      where: { id },
+      where: { uuid },
       data: { active: false },
     })
   }
