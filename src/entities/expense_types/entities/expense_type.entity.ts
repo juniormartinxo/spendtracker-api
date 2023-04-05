@@ -1,7 +1,8 @@
 import { ExpenseType } from '.prisma/client'
 
 export class ExpenseTypeEntity implements ExpenseType {
-  id: number
+  uuid: string
+  user_uuid: string
   description: string
   created_at: Date
   updated_at: Date

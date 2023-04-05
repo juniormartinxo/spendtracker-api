@@ -15,15 +15,15 @@ export class ExpenseTypesService {
     return await this.repository.findAll(skip, take, order, direction)
   }
 
-  findOne(id: number) {
-    return this.repository.findOne(id)
+  findOne(uuid: string) {
+    return this.repository.findOne(uuid)
   }
 
-  update(id: number, dto: UpdateExpenseTypeDto) {
-    return this.repository.update(id, dto)
+  update(uuid: string, dto: UpdateExpenseTypeDto) {
+    return this.repository.update(uuid, dto)
   }
 
-  remove(id: number) {
-    return this.repository.remove(id)
+  remove(uuid: string) {
+    return this.repository.remove(uuid)
   }
 }

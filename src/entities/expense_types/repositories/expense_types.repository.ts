@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { Prisma } from '.prisma/client'
 import OrderByType from 'src/common/types/OrderByType'
 import { PrismaService } from 'src/prisma/prisma.service'
+import { UpdateExpenseTypeDto } from '../dto/update-expense_type.dto'
 import { CreateExpenseTypeDto } from '../dto/create-expense_type.dto'
 import { ExpenseTypeEntity } from '../entities/expense_type.entity'
-import { UpdateExpenseTypeDto } from '../dto/update-expense_type.dto'
 
 @Injectable()
 export class ExpenseTypesRepository {
@@ -22,9 +22,8 @@ export class ExpenseTypesRepository {
 
   async findAll(skip: number, take: number, order: string, direction = 'asc'): Promise<ExpenseTypeEntity[]> {
     const orderFields: OrderByType = {
-      id: 'id',
-      name: 'name',
-      type: 'type',
+      description: 'description',
+      created_at: 'created_at',
     }
 
     const orderBy: OrderByType = {}
@@ -43,22 +42,22 @@ export class ExpenseTypesRepository {
     })
   }
 
-  async findOne(id: number) {
+  async findOne(uuid: string) {
     return await this.service.findUnique({
-      where: { id },
+      where: { uuid },
     })
   }
 
-  async update(id: number, dto: UpdateExpenseTypeDto) {
+  async update(uuid: string, dto: UpdateExpenseTypeDto) {
     return await this.service.update({
-      where: { id },
+      where: { uuid },
       data: dto,
     })
   }
 
-  async remove(id: number) {
+  async remove(uuid: string) {
     return await this.service.update({
-      where: { id },
+      where: { uuid },
       data: { active: false },
     })
   }
