@@ -15,27 +15,27 @@ export class ExpensesService {
     return await this.repository.findAll(skip, take, order, direction)
   }
 
-  async findOne(id: number) {
-    const expense = await this.repository.findOne(id)
+  async findOne(uuid: string) {
+    const expense = await this.repository.findOne(uuid)
 
     if (!expense) {
-      throw new NotFoundException(`Registro com o id ${id}, não encontrado`)
+      throw new NotFoundException(`Registro com o uuid ${uuid}, não encontrado`)
     }
 
     return expense
   }
 
-  async update(id: number, dto: UpdateExpenseDto) {
-    const expense = await this.repository.update(id, dto)
+  async update(uuid: string, dto: UpdateExpenseDto) {
+    const expense = await this.repository.update(uuid, dto)
 
     if (!expense) {
-      throw new NotFoundException(`Registro com o id ${id}, não encontrado`)
+      throw new NotFoundException(`Registro com o uuid ${uuid}, não encontrado`)
     }
 
     return expense
   }
 
-  remove(id: number) {
-    return this.repository.remove(id)
+  remove(uuid: string) {
+    return this.repository.remove(uuid)
   }
 }

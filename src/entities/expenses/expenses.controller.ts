@@ -24,18 +24,18 @@ export class ExpensesController {
   }
 
   @ApiResponse({ status: 400, description: 'Bad request' })
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(+id)
+  @Get(':uuid')
+  findOne(@Param('uuid') uuid: string) {
+    return this.service.findOne(uuid)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateExpenseDto) {
-    return this.service.update(+id, dto)
+  @Patch(':uuid')
+  update(@Param('uuid') uuid: string, @Body() dto: UpdateExpenseDto) {
+    return this.service.update(uuid, dto)
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.service.remove(+id)
+  @Delete(':uuid')
+  remove(@Param('uuid') uuid: string) {
+    return this.service.remove(uuid)
   }
 }

@@ -1,9 +1,10 @@
 import { Expense, Prisma } from '.prisma/client'
 export class ExpenseEntity implements Expense {
-  id: number
-  expense_type_id: number
-  payment_methods_id: number
-  expense_local_id: number
+  uuid: string
+  user_uuid: string
+  expense_type_uuid: string
+  payment_methods_uuid: string
+  expense_local_uuid: string
   description: string
   date: Date
   amount: Prisma.Decimal
