@@ -1,8 +1,9 @@
 import { Installment, Prisma } from '.prisma/client'
 
 export class InstallmentEntity implements Installment {
-  id: number
-  expense_id: number
+  uuid: string
+  user_uuid: string
+  expense_uuid: string
   number: number
   due_date: Date
   amount: Prisma.Decimal

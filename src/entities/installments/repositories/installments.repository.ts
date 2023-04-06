@@ -43,22 +43,22 @@ export class InstallmentsRepository {
     })
   }
 
-  async findOne(id: number) {
+  async findOne(uuid: string) {
     return await this.service.findUnique({
-      where: { id },
+      where: { uuid },
     })
   }
 
-  async update(id: number, dto: UpdateInstallmentDto) {
+  async update(uuid: string, dto: UpdateInstallmentDto) {
     return await this.service.update({
-      where: { id },
+      where: { uuid },
       data: dto,
     })
   }
 
-  async remove(id: number) {
+  async remove(uuid: string) {
     return await this.service.update({
-      where: { id },
+      where: { uuid },
       data: { active: false },
     })
   }
