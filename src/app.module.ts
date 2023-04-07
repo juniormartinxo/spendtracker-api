@@ -7,6 +7,7 @@ import { ExpenseTypesModule } from './entities/expense_types/expense_types.modul
 import { ExpenseLocalsModule } from './entities/expense_locals/expense_locals.module'
 import { InstallmentsModule } from './entities/installments/installments.module'
 import { PaymentMethodsModule } from './entities/payment_methods/payment_methods.module'
+import { UsersModule } from './entities/users/users.module'
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { PaymentMethodsModule } from './entities/payment_methods/payment_methods
     ExpenseLocalsModule,
     InstallmentsModule,
     PaymentMethodsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
