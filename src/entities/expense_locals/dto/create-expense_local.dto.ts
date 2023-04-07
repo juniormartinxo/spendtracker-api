@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsBoolean, IsDate, IsNotEmpty, IsString } from 'class-validator'
-import { ApiProperty } from '@nestjs/swagger'
 
 export class CreateExpenseLocalDto {
   @ApiProperty({ description: 'UUID do usuário da despesa' })
