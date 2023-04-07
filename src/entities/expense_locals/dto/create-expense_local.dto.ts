@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger'
 import { IsBoolean, IsDate, IsNotEmpty, IsString } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
@@ -9,6 +10,7 @@ export class CreateExpenseLocalDto {
   @ApiProperty({ description: 'Descrição do local da despesa' })
   @IsString({ message: 'Descrição deve ser uma string' })
   @IsNotEmpty({ message: 'Descrição não pode ser vazia' })
+  @ApiProperty({ description: 'Descrição do local do gasto' })
   description: string
 
   @ApiProperty({ description: 'Data de criação do local da despesa' })

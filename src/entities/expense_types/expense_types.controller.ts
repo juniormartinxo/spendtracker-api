@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ExpenseTypesService } from './expense_types.service'
 import { CreateExpenseTypeDto } from './dto/create-expense_type.dto'
 import { UpdateExpenseTypeDto } from './dto/update-expense_type.dto'
+import { ApiTags } from '@nestjs/swagger'
 
+@ApiTags('Expense Types')
 @Controller('expense-types')
 export class ExpenseTypesController {
   constructor(private readonly service: ExpenseTypesService) {}

@@ -39,7 +39,7 @@ export class CreateExpenseDto {
       allowInfinity: false,
       maxDecimalPlaces: 2,
     },
-    { message: 'Valor deve ser um número' },
+    { message: 'O valor deve ser um número' },
   )
   @IsNotEmpty({ message: 'Valor não pode ser vazio' })
   amount: Prisma.Decimal
