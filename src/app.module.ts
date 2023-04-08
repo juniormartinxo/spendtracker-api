@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { Logger, Module, OnModuleInit } from '@nestjs/common'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { ExpenseLocalsModule } from './entities/expense_locals/expense_locals.module'
@@ -24,4 +24,32 @@ import { AuthModule } from './auth/auth.module'
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  private readonly logger = new Logger(AppService.name)
+
+  constructor(private configService: ConfigService) {}
+
+  onModuleInit() {
+    const requiredEnvVariables = [
+      'TZ',
+      'NODE_ENV',
+      'APP_PORT',
+      'JWT_SECRET',
+      'DATABASE_TYPE',
+      'DATABASE_USER',
+      'DATABASE_PASSWORD',
+      'DATABASE_HOST',
+      'DATABASE_PORT',
+      'DATABASE_NAME',
+      'DATABASE_URL',
+    ]
+
+    const missingEnvVariables = requiredEnvVariables.filter(envVar => !this.configService.get(envVar))
+
+    if (missingEnvVariables.length) {
+      this.logger.error(`Missing required environment variables: ${missingEnvVariables.join(', ')}`)
+
+      return
+    }
+  }
+}
