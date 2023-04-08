@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
+import { UnauthorizedError } from 'src/common/errors/types/UnauthorizedError'
 import { UserEntity } from 'src/entities/users/entities/user.entity'
 import { UsersService } from '../entities/users/users.service'
 import { UserPayload } from './models/UserPayload'
@@ -16,21 +17,12 @@ export class AuthService {
       name: user.name,
     }
 
-    const accessToken = this.jwtService.sign(payload)
-
     return {
-      accessToken,
-      user: {
-        uuid: user.uuid,
-        name: user.name,
-        email: user.email,
-      },
-      tokenType: 'Bearer',
-      expiresIn: 3600,
+      access_token: this.jwtService.sign(payload),
     }
   }
 
-  async validateUser(email: string, password: string) {
+  async validateUser(email: string, password: string): Promise<UserEntity> {
     const user = await this.userService.findByEmail(email)
 
     if (user) {
@@ -41,6 +33,6 @@ export class AuthService {
       }
     }
 
-    throw new Error('Invalid credentials')
+    throw new UnauthorizedError('Invalid credentials')
   }
 }
