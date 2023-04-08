@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
-import { UsersService } from './users.service'
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { UsersService } from './users.service'
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly service: UsersService) {}
 
   @Post()
-  create(@Body() dto: CreateUserDto) {
-    return this.service.create(dto)
+  async create(@Body() dto: CreateUserDto) {
+    return await this.service.create(dto)
   }
 
   @Get()
-  findAll(skip: number, take: number, order: string, direction: string) {
-    return this.service.findAll(skip, take, order, direction)
+  async findAll(skip: number, take: number, order: string, direction: string) {
+    return await this.service.findAll(skip, take, order, direction)
   }
 
   @Get(':uuid')
-  findOne(@Param('uuid') uuid: string) {
-    return this.service.findOne(uuid)
+  async findOne(@Param('uuid') uuid: string) {
+    return await this.service.findOne(uuid)
+  }
+
+  @Get('get-user/:email')
+  async findByEmail(@Param('email') email: string) {
+    return await this.service.findByEmail(email)
   }
 
   @Patch(':uuid')
-  update(@Param('uuid') uuid: string, @Body() dto: UpdateUserDto) {
-    return this.service.update(uuid, dto)
+  async update(@Param('uuid') uuid: string, @Body() dto: UpdateUserDto) {
+    return await this.service.update(uuid, dto)
   }
 
   @Delete(':uuid')
-  remove(@Param('uuid') uuid: string) {
-    return this.service.remove(uuid)
+  async remove(@Param('uuid') uuid: string) {
+    return await this.service.remove(uuid)
   }
 }
