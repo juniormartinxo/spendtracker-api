@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateUserDto } from '../dto/create-user.dto'
 import { UserEntity } from '../entities/user.entity'
 import { UpdateUserDto } from '../dto/update-user.dto'
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UsersRepository {
@@ -15,9 +16,17 @@ export class UsersRepository {
   }
 
   async create(dto: CreateUserDto): Promise<UserEntity> {
-    return await this.service.create({
-      data: dto,
-    })
+    const data = {
+      ...dto,
+      password: await bcrypt.hash(dto.password, 10),
+    }
+
+    const createdUser = await this.service.create({ data })
+
+    return {
+      ...createdUser,
+      password: undefined,
+    }
   }
 
   async findAll(skip: number, take: number, order: string, direction = 'asc'): Promise<UserEntity[]> {
@@ -45,6 +54,12 @@ export class UsersRepository {
   async findOne(uuid: string) {
     return await this.service.findUnique({
       where: { uuid },
+    })
+  }
+
+  async findByEmail(email: string) {
+    return await this.service.findUnique({
+      where: { email },
     })
   }
 
