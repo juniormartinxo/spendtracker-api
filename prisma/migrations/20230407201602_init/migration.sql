@@ -5,7 +5,7 @@ CREATE TABLE `users` (
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_at` DATETIME(3) NULL,
+    `updated_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
     `active` BOOLEAN NOT NULL DEFAULT true,
 
     UNIQUE INDEX `users_uuid_key`(`uuid`),
@@ -28,7 +28,7 @@ CREATE TABLE `expenses` (
     `installments_first_due_date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `observations` TEXT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_at` DATETIME(3) NULL,
+    `updated_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
     `active` BOOLEAN NOT NULL DEFAULT true,
 
     UNIQUE INDEX `expenses_uuid_key`(`uuid`),
@@ -44,7 +44,7 @@ CREATE TABLE `expense_types` (
     `user_uuid` VARCHAR(36) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_at` DATETIME(3) NULL,
+    `updated_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
     `active` BOOLEAN NOT NULL DEFAULT true,
 
     UNIQUE INDEX `expense_types_uuid_key`(`uuid`),
@@ -57,7 +57,7 @@ CREATE TABLE `expense_locals` (
     `user_uuid` VARCHAR(36) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_at` DATETIME(3) NULL,
+    `updated_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
     `active` BOOLEAN NOT NULL DEFAULT true,
 
     UNIQUE INDEX `expense_locals_uuid_key`(`uuid`),
@@ -76,7 +76,7 @@ CREATE TABLE `installments` (
     `paid` BOOLEAN NOT NULL DEFAULT false,
     `paid_date` DATE NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_at` DATETIME(3) NULL,
+    `updated_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
     `active` BOOLEAN NOT NULL DEFAULT true,
 
     UNIQUE INDEX `installments_uuid_key`(`uuid`),
@@ -90,7 +90,7 @@ CREATE TABLE `payment_methods` (
     `user_uuid` VARCHAR(36) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_at` DATETIME(3) NULL,
+    `updated_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
     `active` BOOLEAN NOT NULL DEFAULT true,
 
     UNIQUE INDEX `payment_methods_uuid_key`(`uuid`),

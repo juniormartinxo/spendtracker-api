@@ -19,7 +19,7 @@ model User {
   email      String    @unique
   password   String    @db.VarChar(255)
   created_at DateTime  @default(now())
-  updated_at DateTime?
+  updated_at DateTime? @default(now())
   active     Boolean   @default(true) @db.TinyInt
 
   Expense       Expense[]
@@ -50,7 +50,7 @@ model Expense {
   installments_first_due_date DateTime      @default(now())
   observations                String?       @db.Text
   created_at                  DateTime      @default(now())
-  updated_at                  DateTime?
+  updated_at                  DateTime?     @default(now())
   active                      Boolean       @default(true) @db.TinyInt
 
   Installment Installment[]
@@ -68,7 +68,7 @@ model ExpenseType {
   User        User      @relation(fields: [user_uuid], references: [uuid])
   description String
   created_at  DateTime  @default(now())
-  updated_at  DateTime?
+  updated_at  DateTime? @default(now())
   active      Boolean   @default(true) @db.TinyInt
 
   Expense Expense[]
@@ -83,7 +83,7 @@ model ExpenseLocal {
   User        User      @relation(fields: [user_uuid], references: [uuid])
   description String
   created_at  DateTime  @default(now())
-  updated_at  DateTime?
+  updated_at  DateTime? @default(now())
   active      Boolean   @default(true) @db.TinyInt
 
   Expense Expense[]
@@ -106,7 +106,7 @@ model Installment {
   paid         Boolean   @default(false)
   paid_date    DateTime? @db.Date()
   created_at   DateTime  @default(now())
-  updated_at   DateTime?
+  updated_at   DateTime? @default(now())
   active       Boolean   @default(true) @db.TinyInt
 
   @@index([expense_uuid])
@@ -120,7 +120,7 @@ model PaymentMethod {
   User        User      @relation(fields: [user_uuid], references: [uuid])
   description String
   created_at  DateTime  @default(now())
-  updated_at  DateTime?
+  updated_at  DateTime? @default(now())
   active      Boolean   @default(true) @db.TinyInt
 
   Expense Expense[]
