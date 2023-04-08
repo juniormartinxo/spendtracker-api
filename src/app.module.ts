@@ -1,14 +1,16 @@
 import { Logger, Module, OnModuleInit } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { APP_GUARD } from '@nestjs/core'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { AuthModule } from './auth/auth.module'
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
 import { ExpenseLocalsModule } from './entities/expense_locals/expense_locals.module'
 import { ExpenseTypesModule } from './entities/expense_types/expense_types.module'
 import { ExpensesModule } from './entities/expenses/expenses.module'
 import { InstallmentsModule } from './entities/installments/installments.module'
 import { PaymentMethodsModule } from './entities/payment_methods/payment_methods.module'
 import { UsersModule } from './entities/users/users.module'
-import { AuthModule } from './auth/auth.module'
 
 @Module({
   imports: [
@@ -22,7 +24,13 @@ import { AuthModule } from './auth/auth.module'
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule implements OnModuleInit {
   private readonly logger = new Logger(AppService.name)
@@ -35,6 +43,7 @@ export class AppModule implements OnModuleInit {
       'NODE_ENV',
       'APP_PORT',
       'JWT_SECRET',
+      'JWT_EXPIRES',
       'DATABASE_TYPE',
       'DATABASE_USER',
       'DATABASE_PASSWORD',
