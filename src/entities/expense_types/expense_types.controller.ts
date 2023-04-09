@@ -5,13 +5,18 @@ import { UpdateExpenseTypeDto } from './dto/update-expense_type.dto'
 import { ApiTags } from '@nestjs/swagger'
 
 @ApiTags('Expense Types')
-@Controller('expense-types')
+@Controller('expense_types')
 export class ExpenseTypesController {
   constructor(private readonly service: ExpenseTypesService) {}
 
   @Post()
-  create(@Body() dto: CreateExpenseTypeDto) {
-    return this.service.create(dto)
+  async create(@Body() dto: CreateExpenseTypeDto) {
+    return await this.service.create(dto)
+  }
+
+  @Post('many/')
+  async createMany(@Body() dto: CreateExpenseTypeDto[]) {
+    return await this.service.createMany(dto)
   }
 
   @Get()
