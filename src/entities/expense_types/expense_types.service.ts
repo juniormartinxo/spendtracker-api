@@ -7,8 +7,12 @@ import { ExpenseTypesRepository } from './repositories/expense_types.repository'
 export class ExpenseTypesService {
   constructor(private readonly repository: ExpenseTypesRepository) {}
 
-  create(dto: CreateExpenseTypeDto) {
-    return this.repository.create(dto)
+  async create(dto: CreateExpenseTypeDto) {
+    return await this.repository.create(dto)
+  }
+
+  async createMany(dto: CreateExpenseTypeDto[]) {
+    return await this.repository.createMany(dto)
   }
 
   async findAll(skip: number, take: number, order: string, direction: string) {
