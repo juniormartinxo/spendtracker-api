@@ -20,6 +20,13 @@ export class ExpenseTypesRepository {
     })
   }
 
+  async createMany(dto: CreateExpenseTypeDto[]) {
+    return await this.service.createMany({
+      data: dto,
+      skipDuplicates: true,
+    })
+  }
+
   async findAll(skip: number, take: number, order: string, direction = 'asc'): Promise<ExpenseTypeEntity[]> {
     const orderFields: OrderByType = {
       description: 'description',
