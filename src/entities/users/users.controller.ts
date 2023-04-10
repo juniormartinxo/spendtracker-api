@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Delete, Get, Param, Patch, Post, HttpCode, BadRequestException } from '@nestjs/common'
+import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UsersService } from './users.service'
@@ -19,14 +19,9 @@ export class UsersController {
     return await this.service.findAll(skip, take, order, direction)
   }
 
-  @Get(':uuid')
+  @Get('get-user/:uuid')
   async findOne(@Param('uuid') uuid: string) {
     return await this.service.findOne(uuid)
-  }
-
-  @Get('get-user/:email')
-  async findByEmail(@Param('email') email: string) {
-    return await this.service.findByEmail(email)
   }
 
   @Patch(':uuid')
