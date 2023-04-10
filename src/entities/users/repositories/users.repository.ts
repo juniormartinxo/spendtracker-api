@@ -52,9 +52,15 @@ export class UsersRepository {
   }
 
   async findOne(uuid: string) {
-    return await this.service.findUnique({
+    const user = await this.service.findUnique({
       where: { uuid },
     })
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado')
+    }
+
+    return { ...user, password: undefined }
   }
 
   async findByEmail(email: string) {
