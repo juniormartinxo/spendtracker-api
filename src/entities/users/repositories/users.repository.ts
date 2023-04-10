@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common'
 import { Prisma } from '.prisma/client'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import * as bcrypt from 'bcrypt'
 import OrderByType from 'src/common/types/OrderByType'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateUserDto } from '../dto/create-user.dto'
-import { UserEntity } from '../entities/user.entity'
 import { UpdateUserDto } from '../dto/update-user.dto'
-import * as bcrypt from 'bcrypt'
+import { UserEntity } from '../entities/user.entity'
 
 @Injectable()
 export class UsersRepository {
@@ -58,9 +58,15 @@ export class UsersRepository {
   }
 
   async findByEmail(email: string) {
-    return await this.service.findUnique({
+    const user = await this.service.findUnique({
       where: { email },
     })
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado')
+    }
+
+    return user
   }
 
   async update(uuid: string, dto: UpdateUserDto) {
