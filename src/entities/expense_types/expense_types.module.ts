@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common'
-import { ExpenseTypesService } from './expense_types.service'
+import { PrismaModule } from 'src/prisma/prisma.module'
 import { ExpenseTypesController } from './expense_types.controller'
+import { ExpenseTypesService } from './expense_types.service'
 import { ExpenseTypesRepository } from './repositories/expense_types.repository'
-import { PrismaService } from 'src/prisma/prisma.service'
 
 @Module({
+  imports: [PrismaModule],
   controllers: [ExpenseTypesController],
-  providers: [ExpenseTypesService, ExpenseTypesRepository, PrismaService],
-  exports: [ExpenseTypesService, ExpenseTypesRepository],
+  providers: [ExpenseTypesService, ExpenseTypesRepository],
+  exports: [ExpenseTypesService],
 })
 export class ExpenseTypesModule {}

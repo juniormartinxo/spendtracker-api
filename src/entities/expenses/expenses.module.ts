@@ -5,8 +5,9 @@ import { ExpensesService } from './expenses.service'
 import { ExpensesRepository } from './repositories/expenses.repository'
 
 @Module({
-  controllers: [ExpensesController, PrismaModule],
+  imports: [PrismaModule],
+  controllers: [ExpensesController],
   providers: [ExpensesService, ExpensesRepository],
-  exports: [ExpensesService, ExpensesRepository],
+  exports: [ExpensesService],
 })
 export class ExpensesModule {}
