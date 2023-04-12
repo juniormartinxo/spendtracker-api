@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing'
+import { v4 as uuidv4 } from 'uuid'
 import { UsersController } from './users.controller'
 import { UsersService } from './users.service'
-import { uuid } from 'uuidv4'
 
 const fakeRecords = [
   {
-    uuid: uuid(),
+    uuid: uuidv4(),
     name: 'User 01',
     email: 'user-01@gmail.com',
     password: undefined,
@@ -14,7 +14,7 @@ const fakeRecords = [
     active: true,
   },
   {
-    uuid: uuid(),
+    uuid: uuidv4(),
     name: 'User 02',
     email: 'user-02@gmail.com',
     password: undefined,
@@ -23,7 +23,7 @@ const fakeRecords = [
     active: true,
   },
   {
-    uuid: uuid(),
+    uuid: uuidv4(),
     name: 'User 03',
     email: 'user-04@gmail.com',
     password: undefined,
@@ -103,8 +103,6 @@ describe('UsersController', () => {
   describe('remove', () => {
     it('should remove a user', async () => {
       const response = await controller.remove(fakeRecords[0].uuid)
-
-      console.log(response)
 
       expect(service.remove).toBeCalledWith(fakeRecords[0].uuid)
       expect(response).toBeUndefined()
