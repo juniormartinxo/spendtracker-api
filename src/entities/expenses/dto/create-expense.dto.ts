@@ -42,7 +42,7 @@ export class CreateExpenseDto {
     { message: 'O valor deve ser um número' },
   )
   @IsNotEmpty({ message: 'Valor não pode ser vazio' })
-  amount: Prisma.Decimal
+  amount: number
 
   @ApiProperty({ description: 'Número de parcelas' })
   @IsInt({ message: 'Número de parcelas deve ser um inteiro' })
